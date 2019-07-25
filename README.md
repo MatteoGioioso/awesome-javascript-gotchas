@@ -66,3 +66,18 @@ Do not use `var` anymore
     type([]) // "Array"
     ```
     
+ - ## Event loop
+  - Microtask and macrotasks
+    ```javascript
+    setTimeout(() => {
+    console.log('hello 1')
+    }, 0);
+
+    Promise.resolve().then(() => console.log('hello 2'))
+
+    console.log('hello 3')
+    
+    //hello 3
+    //hello 2
+    //hello 1
+    ```
