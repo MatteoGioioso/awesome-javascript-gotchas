@@ -70,7 +70,7 @@ Do not use `var` anymore
   - Microtask and macrotasks
     ```javascript
     setTimeout(() => {
-    console.log('hello 1')
+      console.log('hello 1')
     }, 0);
 
     Promise.resolve().then(() => console.log('hello 2'))
