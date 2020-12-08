@@ -81,3 +81,33 @@ Do not use `var` anymore
     //hello 2
     //hello 1
     ```
+
+  - `Process.nextTick` and `setImmediate` \
+  In this case sometimes `setImmediate` runs after or before the `setTimeout`.
+  I think it might depend on the callback being executed in the next loop iteration, but I am not sure and I am still investigating
+```javascript
+    console.log('stack [1]')
+     setImmediate(() => console.log('Immediate [2]'))
+     setTimeout(() => console.log("Set timeout: macro [3]"), 0);
+     // Interestingly enough this function might run before or after setImmediate
+     // I think it depends on the behaviour of setTimeout
+     console.time('timeout')
+     setTimeout(() => {
+         console.timeEnd('timeout')
+         console.log("Set timeout: macro [7]")
+     }, 2);
+     Promise.resolve().then(() => console.log('Promise: micro [4]'));
+     process.nextTick(() => console.log('Next tick: micro [5]'))
+     console.log('stack [6]')
+    
+    // stack [1]
+    // stack [6]
+    // Next tick: micro [5]
+    // Promise: micro [4]
+    // Set timeout: macro [3]
+    // Immediate [2]
+    // timeout: 2.651ms
+    // Set timeout: macro [7]
+
+```
+
